@@ -1,0 +1,58 @@
+﻿@model ICI.ProvaCandidato.Dados.Models.Tag
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Novo Registro</h1>
+
+<h4>Tag</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="createTagForm" onsubmit="return validarFormulario()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+                <button type="button" class="btn btn-secondary" onclick="limparFormulario()">Limpar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar para a lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function limparFormulario() {
+            document.getElementById("createTagForm").reset();
+        }
+
+        function validarFormulario() {
+            var descricao = document.getElementById("Descricao").value;       
+
+            if (descricao === "") {
+                alert("Por favor, preencha o campo descrição");
+                return false; // Impede o envio do formulário
+            }
+
+            if (descricao.length > 100) {
+                alert("Por favor, verifique o tamanho do campos descrição");
+                return false; // Impede o envio do formulário
+            }
+
+            // Outras validações podem ser adicionadas aqui
+
+            return true; // Permite o envio do formulário
+        }
+    </script>
+}

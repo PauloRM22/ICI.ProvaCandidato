@@ -1,0 +1,81 @@
+﻿@model ICI.ProvaCandidato.Dados.Models.Noticia
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Novo Registro</h1>
+
+<h4>Noticia</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="createNoticiaForm" onsubmit="return validarFormulario()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsuarioId" class="control-label"></label>
+                <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoticiasTags" class="control-label">Tags</label>
+                <select asp-for="NoticiasTags" name="tags" class="form-control" asp-items="ViewBag.Tags" multiple></select>
+                <span asp-validation-for="NoticiasTags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+                <button type="button" class="btn btn-secondary" onclick="limparFormulario()">Limpar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div>
+    <a asp-action="Index">Voltar para a lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function limparFormulario() {
+            document.getElementById("createNoticiaForm").reset();
+        }
+
+        function validarFormulario() {
+            var titulo = document.getElementById("Titulo").value;
+            var text = document.getElementById("Text").value;
+            var usuarioId = document.getElementById("UsuarioId").value;
+            var tags = [];
+            
+            for (let i = 0; i < document.getElementById("NoticiasTags").length; i++) {
+                tags.push(document.getElementById("NoticiasTags")[i].value);
+            }
+
+            if (titulo === "" || text === "" || usuarioId === "") {
+                alert("Por favor, preencha todos os campos.");
+                return false; // Impede o envio do formulário
+            }
+
+            if (titulo.length > 250) {
+                alert("Por favor, verifique o tamanho do campo titulo.");
+                return false; // Impede o envio do formulário
+            }
+
+            // Outras validações podem ser adicionadas aqui
+
+            return true; // Permite o envio do formulário
+        }
+    </script>
+}

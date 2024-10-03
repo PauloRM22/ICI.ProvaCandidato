@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ICI.ProvaCandidato.Dados.Models.Noticia>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista de notícias</h1>
+
+<p>
+    <a asp-action="Create">Criar novo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioFk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoticiasTags)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsuarioFk.Nome)
+            </td>
+                <td>
+                    @if (item.NoticiasTags != null)
+                    {
+                        @String.Join(", ", item.NoticiasTags.Select(t => t.TagFk.Descricao))
+                    }
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
